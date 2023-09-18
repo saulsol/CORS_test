@@ -2,12 +2,13 @@ package com.example.corstest;
 
 
 import com.example.dto.ChartData;
+import com.example.dto.CreatePostDto;
+import com.example.dto.LoginDto;
+import com.example.dto.UserInfoDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +39,51 @@ public class GreetingController {
         list.add(data3);
         return ResponseEntity.ok().body(list);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> postData(@RequestBody LoginDto loginDto){
+        System.out.println(loginDto);
+
+        return ResponseEntity.ok().body(loginDto.getUsername());
+    }
+
+
+    @PostMapping("/createPost")
+    public ResponseEntity<?> createPost(@RequestBody CreatePostDto createPostDto){
+        System.out.println(createPostDto);
+
+        CreatePostDto createPostDto1 = new CreatePostDto("title1", "content1");
+        CreatePostDto createPostDto2 = new CreatePostDto("title2", "content2");
+        CreatePostDto createPostDto3 = new CreatePostDto("title3", "content3");
+
+
+        List<CreatePostDto> list = new ArrayList<>();
+        list.add(createPostDto);
+        list.add(createPostDto1);
+        list.add(createPostDto2);
+        list.add(createPostDto3);
+
+
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping("/userInfo")
+    public ResponseEntity<?> userList(){
+
+        List<UserInfoDto> list = new ArrayList<>();
+
+        for(int i=0; i<100; i++){
+            UserInfoDto userInfoDto = new UserInfoDto();
+            userInfoDto.setId(i);
+            userInfoDto.setFirst_name("L" + i);
+            userInfoDto.setLast_name("S" + i);
+            userInfoDto.setEmail("email" + i);
+            userInfoDto.setGender("gender");
+            list.add(userInfoDto);
+        }
+        return ResponseEntity.ok().body(list);
+    }
+
 
 
 }
